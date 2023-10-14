@@ -7,35 +7,73 @@ Architecture overview:
 <img src=".assets/aws-gh-runner.png" />
 
 
-https://www.prisma.io/docs/guides/deployment/deploy-database-changes-with-prisma-migrate
+## Setup
 
+Create the `.auto.tfvars` from the template:
 
-https://docs.github.com/en/actions/hosting-your-own-runners
-https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners
+```sh
+cp samples/sample.tfvars .auto.tfvars
+```
 
+Create the infrastructure:
 
+```sh
+terraform init
+terraform apply -auto-approve
+```
 
-https://www.prisma.io/docs/getting-started/quickstart
+## GitHub Runner
+
+Connect to the GitHub Runner host.
+
+```sh
+aws ssm start-session --target i-00000000000000000
+```
+
+If creating a new environment, verify that the `userdata` executed correctly and reboot to apply kernel upgrades:
+
+> Should `reboot` automatically
+
+```sh
+cloud-init status
+```
+
+Switch to root:
+
+```sh
+sudo su -
+```
+
+Enter the `/opt` directory, this is where we'll install the runner agent:
+
+```sh
+cd /opt
+```
+
+Enable the runner scripts to run as root:
 
 ```sh
 export RUNNER_ALLOW_RUNASROOT="1"
 ```
 
-Reboot the instances to apply Kernel upgrades:
+Access the repository Actions section and create a new runner.
+
+Make sure you select the appropriate architecture, which should be `Linux` and `ARM64`.
+
+Once done, stop the agent and install the runner agent [as a service][5]:
 
 ```sh
-aws ec2 reboot-instances --instance-ids i-00000000000000000
+./svc.sh install
+./svc.sh start
+./svc.sh status
 ```
 
-```sh
-aws ssm start-session --target instance-id
-```
 
-https://stackoverflow.com/questions/66733563/github-actions-runner-listener-exited-with-error-code-null
+## GitHub Action
 
-https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/configuring-the-self-hosted-runner-application-as-a-service
+This repository contains examples of pipelines in the `.github/workflows` directory.
 
-https://github.com/nodesource/distributions
+Check out the guidelines for [Prisma migrations deployment][2], or for your preferred migration tool.
 
 
 ## Local development
@@ -102,3 +140,5 @@ npx prisma migrate deploy
 ```
 
 [1]: https://www.prisma.io/docs/concepts/components/prisma-migrate/shadow-database
+[2]: https://www.prisma.io/docs/guides/deployment/deploy-database-changes-with-prisma-migrate
+[5]: https://docs.github.com/en/enterprise-cloud@latest/actions/hosting-your-own-runners/managing-self-hosted-runners/configuring-the-self-hosted-runner-application-as-a-service
