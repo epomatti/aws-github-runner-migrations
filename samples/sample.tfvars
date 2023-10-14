@@ -7,3 +7,6 @@ rds_instance_class = "db.t4g.micro"
 rds_multi_az       = false
 rds_username       = "mysqladmin"
 rds_password       = "p4ssw0rd"
+
+ecs_task_cpu    = 512
+ecs_task_memory = 1024

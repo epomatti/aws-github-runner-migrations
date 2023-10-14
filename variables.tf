@@ -30,3 +30,12 @@ variable "rds_password" {
   type      = string
   sensitive = true
 }
+
+### ECS ###
+variable "ecs_task_cpu" {
+  type = number
+}
+
+variable "ecs_task_memory" {
+  type = number
+}
