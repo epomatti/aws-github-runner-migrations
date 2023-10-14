@@ -14,6 +14,7 @@ https://www.prisma.io/docs/concepts/components/prisma-migrate/shadow-database
 https://www.prisma.io/docs/guides/deployment/deploy-database-changes-with-prisma-migrate
 
 
+https://docs.github.com/en/actions/hosting-your-own-runners
 https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners
 
 ```sh
@@ -24,6 +25,10 @@ npx prisma migrate dev --name init
 https://www.prisma.io/docs/getting-started/quickstart
 
 
+export RUNNER_ALLOW_RUNASROOT="1"
+
+https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/configuring-the-self-hosted-runner-application-as-a-service
+
 ```sh
 docker run -d \
     -e MYSQL_DATABASE=mysqldb \
@@ -33,4 +38,7 @@ docker run -d \
     mysql:8.0
 ```
 
-
+```sh
+aws ssm start-session \
+    --target instance-id
+```

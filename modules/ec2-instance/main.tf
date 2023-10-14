@@ -11,7 +11,7 @@ resource "aws_instance" "default" {
   ami           = var.ami
   instance_type = var.instance_type
 
-  associate_public_ip_address = false
+  associate_public_ip_address = true
   subnet_id                   = var.subnet
   vpc_security_group_ids      = [aws_security_group.default.id]
 
@@ -32,7 +32,6 @@ resource "aws_instance" "default" {
 
   lifecycle {
     ignore_changes = [
-      associate_public_ip_address,
       user_data
     ]
   }
