@@ -37,3 +37,8 @@ variable "ecs_task_execution_role_arn" {
 variable "ecs_task_role_arn" {
   type = string
 }
+
+variable "ssm_database_url_arn" {
+  type      = string
+  sensitive = true
+}

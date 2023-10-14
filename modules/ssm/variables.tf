@@ -1,16 +1,4 @@
-variable "workload" {
-  type = string
-}
-
-variable "aurora_username" {
-  type = string
-}
-
-variable "aurora_password" {
+variable "database_url" {
   type      = string
   sensitive = true
-}
-
-variable "aurora_endpoint" {
-  type = string
 }

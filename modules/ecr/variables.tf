@@ -1,3 +1,0 @@
-variable "workload" {
-  type = string
-}

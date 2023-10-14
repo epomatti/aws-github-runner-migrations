@@ -32,6 +32,9 @@ resource "aws_ecs_task_definition" "main" {
       "environment" : [
         { "name" : "PORT", "value" : "80" },
       ],
+      "secrets" : [
+        { "name" : "DATABASE_URL", "valueFrom" : "${var.ssm_database_url_arn}" },
+      ],
       "healthCheck" : {
         "retries" : 3,
         "command" : [
@@ -39,7 +42,7 @@ resource "aws_ecs_task_definition" "main" {
           "curl -f http://localhost:80/health || exit 1",
         ],
         "timeout" : 5,
-        "interval" : 10,
+        "interval" : 5,
         "startPeriod" : 10,
       },
       "essential" : true,

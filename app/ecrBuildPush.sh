@@ -2,8 +2,8 @@
 
 account=$(aws sts get-caller-identity --query "Account" --output text)
 region="us-east-2"
-tag="awsredisapp"
-repo="ecr-supercache"
+tag="awsprismaapp-local"
+repo="ecr-prisma-migrations"
 
 docker build -t $tag .
 docker tag $tag "$account.dkr.ecr.$region.amazonaws.com/$repo:latest"
