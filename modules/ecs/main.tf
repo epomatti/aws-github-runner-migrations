@@ -42,8 +42,8 @@ resource "aws_ecs_task_definition" "main" {
           "curl -f http://localhost:80/health || exit 1",
         ],
         "timeout" : 5,
-        "interval" : 5,
-        "startPeriod" : 10,
+        "interval" : 10,
+        "startPeriod" : 20,
       },
       "essential" : true,
       "portMappings" : [
@@ -87,7 +87,7 @@ resource "aws_ecs_service" "main" {
 
   network_configuration {
     subnets          = var.subnets
-    assign_public_ip = false
+    assign_public_ip = true
     security_groups  = [aws_security_group.all.id]
   }
 
