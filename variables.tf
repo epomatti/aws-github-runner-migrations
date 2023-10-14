@@ -18,10 +18,6 @@ variable "rds_instance_class" {
   type = string
 }
 
-variable "rds_multi_az" {
-  type = bool
-}
-
 variable "rds_username" {
   type = string
 }

@@ -5,8 +5,7 @@ resource "aws_db_instance" "default" {
   engine_version = "8.0"
   username       = var.username
   password       = var.password
-
-  multi_az = var.multi_az
+  multi_az       = false
 
   blue_green_update {
     enabled = false

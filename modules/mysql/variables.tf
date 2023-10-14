@@ -10,10 +10,6 @@ variable "subnets" {
   type = list(string)
 }
 
-variable "multi_az" {
-  type = bool
-}
-
 variable "instance_class" {
   type = string
 }

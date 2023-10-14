@@ -27,6 +27,8 @@ https://www.prisma.io/docs/getting-started/quickstart
 
 export RUNNER_ALLOW_RUNASROOT="1"
 
+https://stackoverflow.com/questions/66733563/github-actions-runner-listener-exited-with-error-code-null
+
 https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/configuring-the-self-hosted-runner-application-as-a-service
 
 https://github.com/nodesource/distributions
@@ -41,6 +43,5 @@ docker run -d \
 ```
 
 ```sh
-aws ssm start-session \
-    --target instance-id
+aws ssm start-session --target instance-id
 ```

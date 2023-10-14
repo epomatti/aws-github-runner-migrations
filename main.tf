@@ -37,7 +37,6 @@ module "rds_mysql" {
   workload       = local.workload
   vpc_id         = module.vpc.vpc_id
   subnets        = module.vpc.private_subnets
-  multi_az       = var.rds_multi_az
   instance_class = var.rds_instance_class
   username       = var.rds_username
   password       = var.rds_password

@@ -24,10 +24,12 @@ resource "aws_instance" "default" {
   }
 
   monitoring    = true
-  ebs_optimized = false
+  ebs_optimized = true
 
   root_block_device {
-    encrypted = true
+    encrypted   = true
+    volume_type = "gp3"
+    volume_size = 20
   }
 
   lifecycle {
