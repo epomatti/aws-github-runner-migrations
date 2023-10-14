@@ -1,7 +1,11 @@
 import 'dotenv/config'
 import express from 'express';
+import { PrismaClient } from '@prisma/client'
 
 (async () => {
+
+  const prisma = new PrismaClient();
+
   try {
     process.on("uncaughtException", function (err) {
       console.error(err);
@@ -25,11 +29,21 @@ import express from 'express';
       res.send('OK')
     })
 
+    app.get('/prisma', async (req, res) => {
+      const allUsers = await prisma.user.findMany()
+      console.log(allUsers)
+      res.send('OK')
+    })
+
     app.listen(port, () => {
       console.log(`Example app listening on port ${port}`)
     })
   } catch (e) {
     console.error(e);
+    if (prisma) {
+      await prisma.$disconnect()
+    }
+    process.exit(1)
   }
 })();
 

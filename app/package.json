@@ -2,7 +2,7 @@
   "license": "MIT",
   "scripts": {
     "build": "npx tsc",
-    "dev": "npx tsc && node ./dist/index.js"
+    "dev": "npx ts-node index.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.4.2",

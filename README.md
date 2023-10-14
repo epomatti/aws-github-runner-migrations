@@ -8,11 +8,13 @@ https://www.prisma.io/docs/concepts/components/prisma-migrate/shadow-database
 
 
 
-```
-prisma generate
-```
+> Whenever you update your Prisma schema, you will have to update your database schema using either `prisma migrate dev` or `prisma db push`. This will keep your database schema in sync with your Prisma schema. The commands will also regenerate Prisma Client.
 
-```
+
+
+
+```sh
+# This calls generate under the hood
 npx prisma migrate dev --name init
 ```
 
