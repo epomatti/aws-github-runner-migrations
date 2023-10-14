@@ -5,3 +5,5 @@ export NEEDRESTART_MODE=a
 
 apt update
 apt upgrade -y
+
+reboot

@@ -1,5 +1,5 @@
 locals {
-  name = "gh-runner"
+  name = "github-runner"
 }
 
 resource "aws_iam_instance_profile" "default" {

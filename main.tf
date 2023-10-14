@@ -69,17 +69,17 @@ module "elb" {
   vpc_id   = module.vpc.vpc_id
 }
 
-module "ecs" {
-  source                      = "./modules/ecs"
-  workload                    = local.workload
-  subnets                     = module.vpc.public_subnets
-  vpc_id                      = module.vpc.vpc_id
-  aws_region                  = var.aws_region
-  ecr_repository_url          = module.ecr.repository_url
-  ecs_task_execution_role_arn = module.iam_ecs_task_execution.ecs_task_execution_role_arn
-  ecs_task_role_arn           = module.iam_ecs_task.ecs_task_role_arn
-  target_group_arn            = module.elb.target_group_arn
-  task_cpu                    = var.ecs_task_cpu
-  task_memory                 = var.ecs_task_memory
-  ssm_database_url_arn        = module.ssm.database_url_arn
-}
+# module "ecs" {
+#   source                      = "./modules/ecs"
+#   workload                    = local.workload
+#   subnets                     = module.vpc.public_subnets
+#   vpc_id                      = module.vpc.vpc_id
+#   aws_region                  = var.aws_region
+#   ecr_repository_url          = module.ecr.repository_url
+#   ecs_task_execution_role_arn = module.iam_ecs_task_execution.ecs_task_execution_role_arn
+#   ecs_task_role_arn           = module.iam_ecs_task.ecs_task_role_arn
+#   target_group_arn            = module.elb.target_group_arn
+#   task_cpu                    = var.ecs_task_cpu
+#   task_memory                 = var.ecs_task_memory
+#   ssm_database_url_arn        = module.ssm.database_url_arn
+# }

@@ -11,7 +11,10 @@ https://www.prisma.io/docs/concepts/components/prisma-migrate/shadow-database
 > Whenever you update your Prisma schema, you will have to update your database schema using either `prisma migrate dev` or `prisma db push`. This will keep your database schema in sync with your Prisma schema. The commands will also regenerate Prisma Client.
 
 
+https://www.prisma.io/docs/guides/deployment/deploy-database-changes-with-prisma-migrate
 
+
+https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners
 
 ```sh
 # This calls generate under the hood
