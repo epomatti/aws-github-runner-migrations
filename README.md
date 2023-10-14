@@ -24,8 +24,15 @@ npx prisma migrate dev --name init
 
 https://www.prisma.io/docs/getting-started/quickstart
 
-
+```sh
 export RUNNER_ALLOW_RUNASROOT="1"
+```
+
+Reboot the instances to apply Kernel upgrades:
+
+```sh
+aws ec2 reboot-instances --instance-ids i-00000000000000000
+```
 
 https://stackoverflow.com/questions/66733563/github-actions-runner-listener-exited-with-error-code-null
 
