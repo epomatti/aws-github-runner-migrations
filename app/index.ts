@@ -47,6 +47,7 @@ import { PrismaClient } from '@prisma/client'
     })
 
     app.get('/prisma', async (req, res) => {
+      console.log('Entering prisma endpoint...')
       try {
         const allUsers = await prisma.user.findMany()
         console.log(allUsers)
