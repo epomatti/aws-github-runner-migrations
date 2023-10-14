@@ -23,7 +23,7 @@ resource "aws_instance" "default" {
     http_tokens   = "required"
   }
 
-  monitoring    = false
+  monitoring    = true
   ebs_optimized = false
 
   root_block_device {
