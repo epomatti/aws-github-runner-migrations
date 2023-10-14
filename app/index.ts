@@ -49,7 +49,7 @@ import { PrismaClient } from '@prisma/client'
     app.get('/prisma', async (req, res) => {
       const allUsers = await prisma.user.findMany()
       console.log(allUsers)
-      res.send('OK')
+      res.send('OK\n')
     })
 
     app.listen(port, () => {

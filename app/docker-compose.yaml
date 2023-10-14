@@ -1,6 +1,6 @@
-version: '3.8'
+version: "3.8"
 services:
-  db:
+  mysqlservice:
     image: mysql:8.0
     cap_add:
       - SYS_NICE
@@ -14,14 +14,13 @@ services:
     container_name: migrations-app
     build:
       context: ./
-      target: production
     image: migrations-app
     depends_on:
-      - db
+      - mysqlservice
     ports:
       - 3000:3000
     environment:
       NODE_ENV: production
-      DATABASE_URL: mysql://root:cxvxc2389vcxzv234r@localhost:3306/mysqldb
+      DATABASE_URL: mysql://root:cxvxc2389vcxzv234r@mysqlservice:3306/mysqldb
     links:
-      - db
+      - mysqlservice

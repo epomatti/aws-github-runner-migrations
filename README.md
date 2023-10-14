@@ -4,7 +4,7 @@ Deploying GitHub self-hosted runners to apply migrations to AWS RDS for MySQL.
 
 Shadow database:
 
-https://www.prisma.io/docs/concepts/components/prisma-migrate/shadow-database
+
 
 
 
@@ -17,10 +17,7 @@ https://www.prisma.io/docs/guides/deployment/deploy-database-changes-with-prisma
 https://docs.github.com/en/actions/hosting-your-own-runners
 https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners
 
-```sh
-# This calls generate under the hood
-npx prisma migrate dev --name init
-```
+
 
 https://www.prisma.io/docs/getting-started/quickstart
 
@@ -34,11 +31,20 @@ Reboot the instances to apply Kernel upgrades:
 aws ec2 reboot-instances --instance-ids i-00000000000000000
 ```
 
+```sh
+aws ssm start-session --target instance-id
+```
+
 https://stackoverflow.com/questions/66733563/github-actions-runner-listener-exited-with-error-code-null
 
 https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/configuring-the-self-hosted-runner-application-as-a-service
 
 https://github.com/nodesource/distributions
+
+
+## Local development
+
+Start bu running a MySQL instance:
 
 ```sh
 docker run -d \
@@ -49,6 +55,51 @@ docker run -d \
     mysql:8.0
 ```
 
+Special privileges are required by Prisma to apply [shadow databases][1].
+
+Enter the application directory:
+
 ```sh
-aws ssm start-session --target instance-id
+cd app
 ```
+
+Apply the migrations:
+
+```sh
+# This calls generate under the hood
+npx prisma migrate dev --name init
+```
+
+Run the application locally:
+
+```sh
+npm run dev
+```
+
+Check if the schema and database connections are working:
+
+```sh
+curl localhost:3000/prisma
+```
+
+### Docker image
+
+To verify that the Docker image, 
+
+```sh
+docker compose up
+```
+
+Add the `DATABASE_URL` environment variable:
+
+```SH
+export DATABASE_URL='mysql://root:cxvxc2389vcxzv234r@localhost:3306/mysqldb'
+```
+
+Deploy the migration:
+
+```sh
+npx prisma migrate deploy
+```
+
+[1]: https://www.prisma.io/docs/concepts/components/prisma-migrate/shadow-database
