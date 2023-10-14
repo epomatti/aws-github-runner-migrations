@@ -23,7 +23,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: [self-hosted, linux, ARM64]
+    runs-on: [self-hosted, linux, ARM64, production]
     defaults:
       run:
         working-directory: ./app

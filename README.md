@@ -68,7 +68,6 @@ Once done, stop the agent and install the runner agent [as a service][5]:
 ./svc.sh status
 ```
 
-
 ## GitHub Action
 
 This repository contains examples of pipelines in the `.github/workflows` directory.
