@@ -2,16 +2,16 @@ name: Prisma Migration
 
 on:
   workflow_dispatch:
-    # inputs:
-    #   logLevel:
-    #     description: 'Log level'
-    #     required: true
-    #     default: 'warning'
-    #     type: choice
-    #     options:
-    #     - info
-    #     - warning
-    #     - debug
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
     #   tags:
     #     description: 'Test scenario tags'
     #     required: false
@@ -23,7 +23,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: [self-hosted, linux, ARM64, production]
+    runs-on: [self-hosted, linux, ARM64, staging]
     defaults:
       run:
         working-directory: ./app
