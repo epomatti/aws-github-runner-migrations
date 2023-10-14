@@ -8,8 +8,6 @@ services:
     environment:
       - MYSQL_DATABASE=mysqldb
       - MYSQL_ROOT_PASSWORD=cxvxc2389vcxzv234r
-      - MYSQL_USER=mysqladmin
-      - MYSQL_PASSWORD=p4ssw0rd
     ports:
       - '3306:3306'
   app:
@@ -24,6 +22,6 @@ services:
       - 3000:3000
     environment:
       NODE_ENV: production
-      DATABASE_URL: mysql://mysqladmin:p4ssw0rd@localhost:3306/mysqldb
+      DATABASE_URL: mysql://root:cxvxc2389vcxzv234r@localhost:3306/mysqldb
     links:
       - db
