@@ -42,5 +42,19 @@ mount $drive $mount_point
 # chown ubuntu:ubuntu /mnt/ebs-volume
 echo "$drive $mount_point  ext4  defaults,nofail  0  2" | tee -a /etc/fstab
 
+#####################
+### Docker config ###
+#####################
+
+daemonjsonpath="/etc/docker/daemon.json"
+daemonjson="""
+{
+  \"data-root\": \"/mnt/data\"
+}
+"""
+
+touch $daemonjsonpath
+echo $daemonjson > $daemonjsonpath
+
 
 reboot
