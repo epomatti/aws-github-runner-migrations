@@ -6,6 +6,10 @@ output "elb_dns_name" {
   value = var.create_application_cluster ? module.elb[0].dns_name : null
 }
 
-output "github_runner_instance" {
-  value = module.ec2-instance.instance
+output "github_runner_instance_id" {
+  value = module.ec2-instance.instance_id
+}
+
+output "ssm_start_session_command" {
+  value = "aws ssm start-session --target ${module.ec2-instance.instance_id}"
 }
