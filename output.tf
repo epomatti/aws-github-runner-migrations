@@ -1,9 +1,9 @@
 output "rds_address" {
-  value = module.rds_mysql.address
+  value = var.create_application_cluster ? module.rds_mysql[0].address : null
 }
 
 output "elb_dns_name" {
-  value = module.elb.dns_name
+  value = var.create_application_cluster ? module.elb[0].dns_name : null
 }
 
 output "github_runner_instance" {

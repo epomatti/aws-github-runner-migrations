@@ -30,6 +30,10 @@ resource "aws_instance" "default" {
     encrypted   = true
     volume_type = "gp3"
     volume_size = 20
+
+    tags = {
+      Name = "github-runner-os-disk"
+    }
   }
 
   lifecycle {
@@ -45,7 +49,13 @@ resource "aws_instance" "default" {
 
 resource "aws_ebs_volume" "data" {
   availability_zone = var.az
-  size              = 20
+  encrypted         = true
+  type              = "gp3"
+  size              = 30
+
+  tags = {
+    Name = "github-runner-data-disk"
+  }
 }
 
 resource "aws_volume_attachment" "data" {

@@ -22,12 +22,29 @@ Set the EC2 user data file according to your requirements:
 gh_runner_user_data = "ubuntu-nodejs.sh"
 ```
 
+If you wish to create the application cluster as well, change the variable to `true`:
+
+```terraform
+create_application_cluster = true
+```
+
 Create the infrastructure:
 
 ```sh
 terraform init
 terraform apply -auto-approve
 ```
+
+## Disks
+
+Run as `root` to list the drives:
+
+```sh
+fdisk -l
+```
+
+Follow the [documentation][6] to format and mount the partition.
+
 
 ## GitHub Runner
 
@@ -148,3 +165,4 @@ npx prisma migrate deploy
 [1]: https://www.prisma.io/docs/concepts/components/prisma-migrate/shadow-database
 [2]: https://www.prisma.io/docs/guides/deployment/deploy-database-changes-with-prisma-migrate
 [5]: https://docs.github.com/en/enterprise-cloud@latest/actions/hosting-your-own-runners/managing-self-hosted-runners/configuring-the-self-hosted-runner-application-as-a-service
+[6]: https://docs.aws.amazon.com/ebs/latest/userguide/ebs-using-volumes.html

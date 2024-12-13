@@ -16,6 +16,11 @@ variable "gh_runner_user_data" {
   type = string
 }
 
+### Application Cluster ###
+variable "create_application_cluster" {
+  type = bool
+}
+
 ### RDS for MySQL ###
 
 variable "rds_instance_class" {
