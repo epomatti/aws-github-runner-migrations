@@ -35,26 +35,45 @@ terraform init
 terraform apply -auto-approve
 ```
 
-## Disks
+## Volume mount
 
 > [!TIP]
 > Device names from EC2 can be different from the actual device. Check the [documentation][7]
 
-Run as `root` to list the drives:
+In this project, the EBS volume device name will be `/dev/sdf`, and the block device should be `/dev/nvme1n1`. More about this in the [naming documentation][7].
+
+Login as `root` to list the drives:
 
 ```sh
 fdisk -l
 ```
 
-Check the devices with `lsblk`:
-
-> ![NOTE]
-> According to the [naming documentation][7], the device should be named as `nvme1n1`.
+List the available disks with `lsblk`:
 
 ```sh
 lsblk
+```
 
+To determine if the volume is formatted or not, use the `-f` option. If the `FSTYPE` column for the volume (e.g., `/dev/nvme1n1`) is empty, the volume is not formatted. If it shows a file system type (e.g., `ext4`, `xfs`), the volume is already formatted.
+
+```sh
 lsblk -f
+```
+
+To check it directly, use command below. If the output says `data`, the volume is not formatted. If the output shows a file system type (e.g., `ext4` or `xfs`), the volume is formatted.
+
+```sh
+file -s /dev/nvme1n1
+```
+
+Check the mount:
+
+```sh
+df -h
+```
+
+```sh
+mount -a
 ```
 
 Follow the [documentation][6] to format and mount the partition.

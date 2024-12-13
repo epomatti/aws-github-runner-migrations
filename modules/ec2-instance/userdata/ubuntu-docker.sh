@@ -31,16 +31,16 @@ apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin do
 ### Data disk ###
 #################
 
-# # Variables
-# drive="/dev/nvme1n1"
-# mount_point="/mnt/data"
+# Variables
+drive="/dev/nvme1n1"
+mount_point="/mnt/data"
 
-# # Mount the disk
-# mkdir -p $mount_point
-# mkfs -t ext4 $drive
-# mount $drive $mount_point
-
-
+# Mount the disk
+mkdir -p $mount_point
+mkfs.ext4 $drive
+mount $drive $mount_point
+# chown ubuntu:ubuntu /mnt/ebs-volume
+echo "$drive $mount_point  ext4  defaults,nofail  0  2" | tee -a /etc/fstab
 
 
 reboot
