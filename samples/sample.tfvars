@@ -1,7 +1,7 @@
 aws_region = "us-east-2"
 
-gh_runner_ami           = "ami-0560690593473ded1"
-gh_runner_instance_type = "t4g.micro"
+gh_runner_ami           = "ami-036841078a4b68e14"
+gh_runner_instance_type = "t3.medium"
 gh_runner_user_data     = "ubuntu-nodejs.sh" # ubuntu-nodejs.sh, ubuntu-docker.sh
 
 create_application_cluster = false

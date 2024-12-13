@@ -37,10 +37,24 @@ terraform apply -auto-approve
 
 ## Disks
 
+> [!TIP]
+> Device names from EC2 can be different from the actual device. Check the [documentation][7]
+
 Run as `root` to list the drives:
 
 ```sh
 fdisk -l
+```
+
+Check the devices with `lsblk`:
+
+> ![NOTE]
+> According to the [naming documentation][7], the device should be named as `nvme1n1`.
+
+```sh
+lsblk
+
+lsblk -f
 ```
 
 Follow the [documentation][6] to format and mount the partition.
@@ -166,3 +180,4 @@ npx prisma migrate deploy
 [2]: https://www.prisma.io/docs/guides/deployment/deploy-database-changes-with-prisma-migrate
 [5]: https://docs.github.com/en/enterprise-cloud@latest/actions/hosting-your-own-runners/managing-self-hosted-runners/configuring-the-self-hosted-runner-application-as-a-service
 [6]: https://docs.aws.amazon.com/ebs/latest/userguide/ebs-using-volumes.html
+[7]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html

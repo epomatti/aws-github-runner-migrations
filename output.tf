@@ -7,9 +7,9 @@ output "elb_dns_name" {
 }
 
 output "github_runner_instance_id" {
-  value = module.ec2-instance.instance_id
+  value = module.ec2_instance.instance_id
 }
 
 output "ssm_start_session_command" {
-  value = "aws ssm start-session --target ${module.ec2-instance.instance_id}"
+  value = "aws ssm start-session --target ${module.ec2_instance.instance_id}"
 }

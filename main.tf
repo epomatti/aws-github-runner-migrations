@@ -25,7 +25,7 @@ module "vpc" {
   workload   = local.workload
 }
 
-module "ec2-instance" {
+module "ec2_instance" {
   source        = "./modules/ec2-instance"
   vpc_id        = module.vpc.vpc_id
   subnet        = module.vpc.public_subnets[0]
