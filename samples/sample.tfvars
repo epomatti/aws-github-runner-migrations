@@ -1,7 +1,8 @@
 aws_region = "us-east-2"
 
-gh_runner_ami           = "ami-08fdd91d87f63bb09"
+gh_runner_ami           = "ami-0560690593473ded1"
 gh_runner_instance_type = "t4g.micro"
+gh_runner_user_data     = "ubuntu-nodejs.sh" # ubuntu-nodejs.sh, ubuntu-docker.sh
 
 rds_instance_class = "db.t4g.micro"
 rds_username       = "mysqladmin"

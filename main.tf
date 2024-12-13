@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.21.0"
+      version = "5.81.0"
     }
   }
 }
@@ -30,6 +30,8 @@ module "ec2-instance" {
   subnet        = module.vpc.public_subnets[0]
   ami           = var.gh_runner_ami
   instance_type = var.gh_runner_instance_type
+  user_data     = var.gh_runner_user_data
+  az            = module.vpc.azs[0]
 }
 
 module "rds_mysql" {

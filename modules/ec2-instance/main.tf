@@ -16,14 +16,14 @@ resource "aws_instance" "default" {
   vpc_security_group_ids      = [aws_security_group.default.id]
 
   iam_instance_profile = aws_iam_instance_profile.default.id
-  user_data            = file("${path.module}/userdata.sh")
+  user_data            = file("${path.module}/userdata/${var.user_data}")
 
   metadata_options {
     http_endpoint = "enabled"
     http_tokens   = "required"
   }
 
-  monitoring    = true
+  monitoring    = false
   ebs_optimized = true
 
   root_block_device {
@@ -41,6 +41,17 @@ resource "aws_instance" "default" {
   tags = {
     Name = local.name
   }
+}
+
+resource "aws_ebs_volume" "data" {
+  availability_zone = var.az
+  size              = 20
+}
+
+resource "aws_volume_attachment" "data" {
+  device_name = "/dev/sdh"
+  volume_id   = aws_ebs_volume.data.id
+  instance_id = aws_instance.default.id
 }
 
 ### IAM Role ###

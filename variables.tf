@@ -12,6 +12,10 @@ variable "gh_runner_instance_type" {
   type = string
 }
 
+variable "gh_runner_user_data" {
+  type = string
+}
+
 ### RDS for MySQL ###
 
 variable "rds_instance_class" {

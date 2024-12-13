@@ -15,6 +15,13 @@ Create the `.auto.tfvars` from the template:
 cp samples/sample.tfvars .auto.tfvars
 ```
 
+Set the EC2 user data file according to your requirements:
+
+```terraform
+# Available files: ubuntu-nodejs.sh, ubuntu-docker.sh
+gh_runner_user_data = "ubuntu-nodejs.sh"
+```
+
 Create the infrastructure:
 
 ```sh
