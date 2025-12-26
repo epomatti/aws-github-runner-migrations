@@ -25,16 +25,16 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
   }
 }
 
-resource "aws_s3_object" "minimal_ubuntu_pro_usg" {
-  bucket = aws_s3_bucket.main.id
-  key    = local.minimal_ubuntu_pro_usg
-  source = local.minimal_ubuntu_pro_usg
-  etag   = filemd5(local.minimal_ubuntu_pro_usg)
-}
+# resource "aws_s3_object" "minimal_ubuntu_pro_usg" {
+#   bucket = aws_s3_bucket.main.id
+#   key    = local.minimal_ubuntu_pro_usg
+#   source = local.minimal_ubuntu_pro_usg
+#   etag   = filemd5(local.minimal_ubuntu_pro_usg)
+# }
 
-resource "aws_s3_object" "minimal_ubuntu_github_runner" {
-  bucket = aws_s3_bucket.main.id
-  key    = local.minimal_ubuntu_github_runner
-  source = local.minimal_ubuntu_github_runner
-  etag   = filemd5(local.minimal_ubuntu_github_runner)
-}
+# resource "aws_s3_object" "minimal_ubuntu_github_runner" {
+#   bucket = aws_s3_bucket.main.id
+#   key    = local.minimal_ubuntu_github_runner
+#   source = local.minimal_ubuntu_github_runner
+#   etag   = filemd5(local.minimal_ubuntu_github_runner)
+# }
