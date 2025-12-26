@@ -30,6 +30,11 @@ module "parameters" {
   github_token = var.gh_runner_token
 }
 
+module "secrets" {
+  source       = "./modules/secrets"
+  github_token = var.gh_runner_token
+}
+
 module "github_runner_instance" {
   source              = "./modules/instances/github_runner"
   vpc_id              = module.network.vpc_id
@@ -41,7 +46,7 @@ module "github_runner_instance" {
   vpc_cidr_block      = module.network.vpc_cidr_block
   instance_profile_id = module.iam_github_runner.instance_profile_id
 
-  depends_on = [module.iam_github_runner, module.parameters]
+  depends_on = [module.iam_github_runner, module.parameters, module.secrets]
 }
 
 module "rds_mysql" {
