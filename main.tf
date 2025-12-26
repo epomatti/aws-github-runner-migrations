@@ -38,7 +38,7 @@ module "github_runner_instance" {
   instance_type       = var.gh_runner_instance_type
   user_data           = var.gh_runner_user_data
   az                  = module.network.primary_az
-  vpc_cidr_block      = module.network.vpc_id
+  vpc_cidr_block      = module.network.vpc_cidr_block
   instance_profile_id = module.iam_github_runner.instance_profile_id
 
   depends_on = [module.iam_github_runner, module.parameters]
