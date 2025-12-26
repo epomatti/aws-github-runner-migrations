@@ -9,7 +9,7 @@ apt install -y jq
 snap install aws-cli --classic
 
 ### GitHub Self-Hosted Runner ###
-# Install the GitHub CLI
+# Install the GitHub CLI (https://github.com/cli/cli/blob/trunk/docs/install_linux.md#debian)
 (type -p wget >/dev/null || (apt update && apt install wget -y)) \
 	&& mkdir -p -m 755 /etc/apt/keyrings \
 	&& out=$(mktemp) && wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg \
