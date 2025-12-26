@@ -6,7 +6,6 @@ Architecture overview:
 
 <img src=".assets/aws-gh-runner.png" />
 
-
 ## Setup
 
 Create the `.auto.tfvars` from the template:
@@ -32,7 +31,7 @@ Create the infrastructure:
 
 ```sh
 terraform init
-terraform apply -auto-approve
+terraform apply
 ```
 
 ## Volume mount

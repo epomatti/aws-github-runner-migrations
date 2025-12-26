@@ -1,14 +1,20 @@
+# Project
 aws_region = "us-east-2"
 
-gh_runner_ami           = "ami-036841078a4b68e14"
+# GitHub Runner
+gh_runner_ami           = "ami-0f5fcdfbd140e4ab7"
 gh_runner_instance_type = "t3.medium"
-gh_runner_user_data     = "ubuntu-nodejs.sh" # ubuntu-nodejs.sh, ubuntu-docker.sh
+gh_runner_user_data     = "ubuntu-runner.sh"
+gh_runner_token         = ""
 
-create_application_cluster = false
-
+# RDS
 rds_instance_class = "db.t4g.micro"
 rds_username       = "mysqladmin"
 rds_password       = "p4ssw0rd"
+rds_engine         = "mysql"
+rds_engine_version = "8.4.7"
 
-ecs_task_cpu    = 512
-ecs_task_memory = 1024
+# Application Cluster
+create_application_cluster = false
+ecs_task_cpu               = 512
+ecs_task_memory            = 1024

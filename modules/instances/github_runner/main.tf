@@ -2,11 +2,6 @@ locals {
   name = "github-runner"
 }
 
-resource "aws_iam_instance_profile" "default" {
-  name = local.name
-  role = aws_iam_role.default.id
-}
-
 resource "aws_instance" "default" {
   ami           = var.ami
   instance_type = var.instance_type
@@ -15,7 +10,7 @@ resource "aws_instance" "default" {
   subnet_id                   = var.subnet
   vpc_security_group_ids      = [aws_security_group.default.id]
 
-  iam_instance_profile = aws_iam_instance_profile.default.id
+  iam_instance_profile = var.instance_profile_id
   user_data            = file("${path.module}/userdata/${var.user_data}")
 
   metadata_options {
@@ -32,7 +27,7 @@ resource "aws_instance" "default" {
     volume_size = 20
 
     tags = {
-      Name = "github-runner-os-disk"
+      Name = "${local.name}-os-disk"
     }
   }
 
@@ -54,7 +49,7 @@ resource "aws_ebs_volume" "data" {
   size              = 30
 
   tags = {
-    Name = "github-runner-data-disk"
+    Name = "${local.name}-data-disk"
   }
 }
 
@@ -62,35 +57,6 @@ resource "aws_volume_attachment" "data" {
   device_name = "/dev/sdf"
   volume_id   = aws_ebs_volume.data.id
   instance_id = aws_instance.default.id
-}
-
-### IAM Role ###
-
-resource "aws_iam_role" "default" {
-  name = local.name
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
-      },
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "ssm-managed-instance-core" {
-  role       = aws_iam_role.default.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-}
-
-data "aws_vpc" "selected" {
-  id = var.vpc_id
 }
 
 resource "aws_security_group" "default" {
@@ -126,6 +92,6 @@ resource "aws_security_group_rule" "mysql" {
   from_port         = 3306
   to_port           = 3306
   protocol          = "tcp"
-  cidr_blocks       = [data.aws_vpc.selected.cidr_block]
+  cidr_blocks       = [var.vpc_cidr_block]
   security_group_id = aws_security_group.default.id
 }

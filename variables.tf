@@ -16,6 +16,11 @@ variable "gh_runner_user_data" {
   type = string
 }
 
+variable "gh_runner_token" {
+  type      = string
+  sensitive = true
+}
+
 ### Application Cluster ###
 variable "create_application_cluster" {
   type = bool
@@ -34,6 +39,14 @@ variable "rds_username" {
 variable "rds_password" {
   type      = string
   sensitive = true
+}
+
+variable "rds_engine" {
+  type = string
+}
+
+variable "rds_engine_version" {
+  type = string
 }
 
 ### ECS ###

@@ -2,13 +2,9 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.81.0"
+      version = ">= 6.0.0"
     }
   }
-}
-
-provider "aws" {
-  region = var.aws_region
 }
 
 data "aws_caller_identity" "current" {}
@@ -19,31 +15,47 @@ locals {
   cluster_count  = var.create_application_cluster ? 1 : 0
 }
 
-module "vpc" {
-  source     = "./modules/vpc"
+module "network" {
+  source     = "./modules/network"
   aws_region = var.aws_region
   workload   = local.workload
 }
 
-module "ec2_instance" {
-  source        = "./modules/ec2-instance"
-  vpc_id        = module.vpc.vpc_id
-  subnet        = module.vpc.public_subnets[0]
-  ami           = var.gh_runner_ami
-  instance_type = var.gh_runner_instance_type
-  user_data     = var.gh_runner_user_data
-  az            = module.vpc.azs[0]
+module "iam_github_runner" {
+  source = "./modules/iam/github_runner"
+}
+
+module "parameters" {
+  source       = "./modules/parameters"
+  github_token = var.gh_runner_token
+}
+
+module "github_runner_instance" {
+  source              = "./modules/instances/github_runner"
+  vpc_id              = module.network.vpc_id
+  subnet              = module.network.primary_public_subnet
+  ami                 = var.gh_runner_ami
+  instance_type       = var.gh_runner_instance_type
+  user_data           = var.gh_runner_user_data
+  az                  = module.network.primary_az
+  vpc_cidr_block      = module.network.vpc_id
+  instance_profile_id = module.iam_github_runner.instance_profile_id
+
+  depends_on = [module.iam_github_runner, module.parameters]
 }
 
 module "rds_mysql" {
-  count          = local.cluster_count
-  source         = "./modules/mysql"
-  workload       = local.workload
-  vpc_id         = module.vpc.vpc_id
-  subnets        = module.vpc.private_subnets
-  instance_class = var.rds_instance_class
-  username       = var.rds_username
-  password       = var.rds_password
+  count             = local.cluster_count
+  source            = "./modules/mysql"
+  workload          = local.workload
+  vpc_id            = module.network.vpc_id
+  subnets           = module.network.private_subnets
+  instance_class    = var.rds_instance_class
+  username          = var.rds_username
+  password          = var.rds_password
+  availability_zone = module.network.primary_az
+  engine            = var.rds_engine
+  engine_version    = var.rds_engine_version
 }
 
 module "ecr" {
@@ -73,16 +85,16 @@ module "elb" {
   count    = local.cluster_count
   source   = "./modules/elb"
   workload = local.workload
-  subnets  = module.vpc.public_subnets
-  vpc_id   = module.vpc.vpc_id
+  subnets  = module.network.public_subnets
+  vpc_id   = module.network.vpc_id
 }
 
 module "ecs" {
   count                       = local.cluster_count
   source                      = "./modules/ecs"
   workload                    = local.workload
-  subnets                     = module.vpc.public_subnets
-  vpc_id                      = module.vpc.vpc_id
+  subnets                     = module.network.public_subnets
+  vpc_id                      = module.network.vpc_id
   aws_region                  = var.aws_region
   ecr_repository_url          = module.ecr[0].repository_url
   ecs_task_execution_role_arn = module.iam_ecs_task_execution[0].ecs_task_execution_role_arn

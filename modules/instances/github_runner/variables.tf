@@ -21,3 +21,11 @@ variable "user_data" {
 variable "az" {
   type = string
 }
+
+variable "vpc_cidr_block" {
+  type = string
+}
+
+variable "instance_profile_id" {
+  type = string
+}

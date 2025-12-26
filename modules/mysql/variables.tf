@@ -22,3 +22,15 @@ variable "password" {
   type      = string
   sensitive = true
 }
+
+variable "availability_zone" {
+  type = string
+}
+
+variable "engine" {
+  type = string
+}
+
+variable "engine_version" {
+  type = string
+}

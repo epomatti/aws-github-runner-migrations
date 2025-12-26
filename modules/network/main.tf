@@ -1,5 +1,5 @@
 locals {
-  azs = ["${var.aws_region}a", "${var.aws_region}b"]
+  availability_zones = ["${var.aws_region}a", "${var.aws_region}b"]
 }
 
 resource "aws_vpc" "main" {
@@ -36,7 +36,7 @@ resource "aws_route_table" "public" {
 resource "aws_subnet" "public1" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.1.0/24"
-  availability_zone       = local.azs[0]
+  availability_zone       = local.availability_zones[0]
   map_public_ip_on_launch = false
 
   tags = {
@@ -47,7 +47,7 @@ resource "aws_subnet" "public1" {
 resource "aws_subnet" "public2" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.2.0/24"
-  availability_zone       = local.azs[1]
+  availability_zone       = local.availability_zones[1]
   map_public_ip_on_launch = false
 
   tags = {
@@ -70,7 +70,7 @@ resource "aws_route_table_association" "public2" {
 resource "aws_subnet" "private1" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.101.0/24"
-  availability_zone       = local.azs[0]
+  availability_zone       = local.availability_zones[0]
   map_public_ip_on_launch = false
 
   tags = {
@@ -81,7 +81,7 @@ resource "aws_subnet" "private1" {
 resource "aws_subnet" "private2" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.102.0/24"
-  availability_zone       = local.azs[1]
+  availability_zone       = local.availability_zones[1]
   map_public_ip_on_launch = false
 
   tags = {

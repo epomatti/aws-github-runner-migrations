@@ -1,11 +1,12 @@
 resource "aws_db_instance" "default" {
-  identifier     = "rds-${var.workload}"
-  db_name        = "mysqldb"
-  engine         = "mysql"
-  engine_version = "8.0"
-  username       = var.username
-  password       = var.password
-  multi_az       = false
+  identifier        = "rds-${var.workload}"
+  db_name           = "mysqldb"
+  engine            = var.engine
+  engine_version    = var.engine_version
+  username          = var.username
+  password          = var.password
+  multi_az          = false
+  availability_zone = var.availability_zone
 
   blue_green_update {
     enabled = false
