@@ -25,6 +25,11 @@ resource "aws_iam_role" "default" {
   })
 }
 
+resource "aws_iam_role_policy_attachment" "AmazonS3FullAccess" {
+  role       = aws_iam_role.default.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
+
 resource "aws_iam_role_policy_attachment" "AmazonSSMManagedInstanceCore" {
   role       = aws_iam_role.default.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"

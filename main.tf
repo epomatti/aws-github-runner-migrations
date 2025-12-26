@@ -25,9 +25,15 @@ module "iam_github_runner" {
   source = "./modules/iam/github_runner"
 }
 
+module "bucket" {
+  source = "./modules/buckets"
+}
+
 module "parameters" {
-  source       = "./modules/parameters"
-  github_token = var.gh_runner_token
+  source          = "./modules/parameters"
+  github_token    = var.gh_runner_token
+  s3bucket        = module.bucket.s3bucket
+  usg_cis_profile = var.gh_runner_usg_cis_profile
 }
 
 module "secrets" {

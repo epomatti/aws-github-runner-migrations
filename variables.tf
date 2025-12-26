@@ -21,6 +21,10 @@ variable "gh_runner_token" {
   sensitive = true
 }
 
+variable "gh_runner_usg_cis_profile" {
+  type = string
+}
+
 ### Application Cluster ###
 variable "create_application_cluster" {
   type = bool

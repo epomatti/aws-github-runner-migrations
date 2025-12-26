@@ -2,10 +2,10 @@
 aws_region = "us-east-2"
 
 # GitHub Runner
-gh_runner_ami           = "ami-0f5fcdfbd140e4ab7"
-gh_runner_instance_type = "t3.medium"
-gh_runner_user_data     = "ubuntu-runner.sh"
-gh_runner_token         = ""
+gh_runner_ami           = "ami-083b961022b7d386c" # Minimal Ubuntu Pro 24.04LTS
+gh_runner_instance_type = "t3.small"
+gh_runner_user_data     = "ubuntu_upgrade.sh"
+gh_runner_token         = "<TOKEN>"
 
 # RDS
 rds_instance_class = "db.t4g.micro"
