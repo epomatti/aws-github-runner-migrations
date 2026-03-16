@@ -8,9 +8,49 @@ apt upgrade -y
 apt install -y jq
 snap install aws-cli --classic
 
+#################
+### Data disk ###
+#################
+
+DEVICE="/dev/nvme1n1"
+
+# 2. Wait for the device to be available
+echo "Waiting for $DEVICE to attach..."
+until [ -b $DEVICE ]; do
+  echo "Device $DEVICE not found, sleeping..."
+  sleep 2
+done
+
+echo "Device $DEVICE attached. Proceeding with mounting."
+
+# Variables
+drive="$DEVICE"
+mount_point="/mnt/data"
+
+# Mount the disk
+mkdir -p $mount_point
+mkfs.ext4 $drive
+mount $drive $mount_point
+# chown ubuntu:ubuntu /mnt/ebs-volume
+echo "$drive $mount_point  ext4  defaults,nofail  0  2" | tee -a /etc/fstab
+
+#####################
+### Docker config ###
+#####################
+
 ### Docker ###
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
+
+daemonjsonpath="/etc/docker/daemon.json"
+daemonjson="""
+{
+  \"data-root\": \"/mnt/data\"
+}
+"""
+
+touch $daemonjsonpath
+echo $daemonjson > $daemonjsonpath
 
 ### GitHub Self-Hosted Runner ###
 # Install the GitHub CLI (https://github.com/cli/cli/blob/trunk/docs/install_linux.md#debian)
