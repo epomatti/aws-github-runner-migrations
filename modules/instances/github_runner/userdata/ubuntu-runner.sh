@@ -52,6 +52,8 @@ daemonjson="""
 touch $daemonjsonpath
 echo $daemonjson > $daemonjsonpath
 
+systemctl restart docker
+
 ### GitHub Self-Hosted Runner ###
 # Install the GitHub CLI (https://github.com/cli/cli/blob/trunk/docs/install_linux.md#debian)
 (type -p wget >/dev/null || (apt update && apt install wget -y)) \
@@ -82,3 +84,7 @@ RUNNER_TOKEN=$(gh api /repos/epomatti/aws-github-runner-migrations/actions/runne
 # Configure as a service, then start
 ./svc.sh install
 ./svc.sh start
+
+sleep 10
+
+reboot

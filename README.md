@@ -131,6 +131,19 @@ This repository contains examples of pipelines in the `.github/workflows` direct
 
 Check out the guidelines for [Prisma migrations deployment][2], or for your preferred migration tool.
 
+## Docker Validation
+
+The initialization script installs Docker and configures it to use the mounted EBS volume as data root.
+
+Verify that the volume has been mapped:
+
+```sh
+lsblk
+ls /var/lib/docker/
+ls /mnt/data
+docker pull hello-world
+docker system prune
+```
 
 ## Local development
 
