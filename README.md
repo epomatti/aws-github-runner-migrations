@@ -11,19 +11,20 @@ Architecture overview:
 Create the `.auto.tfvars` from the template:
 
 ```sh
-cp samples/sample.tfvars .auto.tfvars
+cp config/local.tfvars .auto.tfvars
 ```
 
 Set the EC2 user data file according to your requirements:
 
 ```terraform
-# Available files: ubuntu-nodejs.sh, ubuntu-docker.sh
-gh_runner_user_data = "ubuntu-nodejs.sh"
+# Token for automated register of the GH Runner. Must have administratore read/write permissions
+gh_runner_token = "github_pat_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 ```
 
 If you wish to create the application cluster as well, change the variable to `true`:
 
 ```terraform
+rds_create_instance        = true
 create_application_cluster = true
 ```
 

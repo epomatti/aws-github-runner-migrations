@@ -31,6 +31,9 @@ variable "create_application_cluster" {
 }
 
 ### RDS for MySQL ###
+variable "rds_create_instance" {
+  type = bool
+}
 
 variable "rds_instance_class" {
   type = string

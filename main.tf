@@ -56,7 +56,7 @@ module "github_runner_instance" {
 }
 
 module "rds_mysql" {
-  count             = local.cluster_count
+  count             = var.rds_create_instance ? 1 : 0
   source            = "./modules/mysql"
   workload          = local.workload
   vpc_id            = module.network.vpc_id

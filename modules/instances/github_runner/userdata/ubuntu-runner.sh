@@ -8,6 +8,10 @@ apt upgrade -y
 apt install -y jq
 snap install aws-cli --classic
 
+### Docker ###
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+
 ### GitHub Self-Hosted Runner ###
 # Install the GitHub CLI (https://github.com/cli/cli/blob/trunk/docs/install_linux.md#debian)
 (type -p wget >/dev/null || (apt update && apt install wget -y)) \
@@ -22,7 +26,7 @@ snap install aws-cli --classic
 
 # Download and extract
 directory=/opt/actions-runner
-version=2.330.0
+version=2.332.0
 mkdir -p "$directory" && cd "$directory"
 curl -o "actions-runner-linux-x64-$version.tar.gz" -L "https://github.com/actions/runner/releases/download/v$version/actions-runner-linux-x64-$version.tar.gz"
 tar xzf "./actions-runner-linux-x64-$version.tar.gz"
