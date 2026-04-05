@@ -1,0 +1,38 @@
+#cloud-config
+
+bootcmd:
+  - [ cloud-init-per, once, wait-for-disk, sh, -c, 'until [ -b /dev/nvme1n1 ]; do sleep 1; done' ]
+
+timezone: UTC
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+
+packages:
+  - less
+  - jq
+
+snap:
+  commands:
+    - snap install aws-cli --classic
+
+device_aliases: { data_disk: /dev/nvme1n1 }
+
+disk_setup:
+  data_disk:
+    table_type: gpt
+    layout: true
+    overwrite: true
+
+fs_setup:
+  - label: DATA001
+    filesystem: ext4
+    device: data_disk
+    partition: auto
+
+mounts:
+  - [LABEL=DATA001, /mnt/data001, "ext4", "defaults,nofail", "0", "2"]
+
+runcmd:
+  - [apt-get, autoremove, -y]
+  - [apt-get, clean]
