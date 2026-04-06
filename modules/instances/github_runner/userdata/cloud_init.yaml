@@ -25,13 +25,13 @@ disk_setup:
     overwrite: true
 
 fs_setup:
-  - label: DATA001
+  - label: DISK001
     filesystem: ext4
     device: data_disk
     partition: auto
 
 mounts:
-  - [LABEL=DATA001, /mnt/data001, "ext4", "defaults,nofail", "0", "2"]
+  - [LABEL=DISK001, /data/disk001, "ext4", "defaults,nofail", "0", "2"]
 
 runcmd:
   - [apt-get, autoremove, -y]
