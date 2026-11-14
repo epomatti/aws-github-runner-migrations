@@ -1,0 +1,34 @@
+---
+# Homebrew taps and packages for the development environment
+- name: Tap Azure/kubelogin
+  become: true
+  become_user: "{{ target_user }}"
+  community.general.homebrew_tap:
+    name: azure/kubelogin
+    state: present
+    path: /home/linuxbrew/.linuxbrew/bin
+
+- name: Tap Shopify for Toxiproxy
+  become: true
+  become_user: "{{ target_user }}"
+  community.general.homebrew_tap:
+    name: shopify/shopify
+    state: present
+    path: /home/linuxbrew/.linuxbrew/bin
+
+# Homebrew packages are installed as target_user; brew refuses to run as root.
+# 'path' points the module at the Linuxbrew binary since it is not on PATH by default.
+- name: Install Homebrew packages
+  become: true
+  become_user: "{{ target_user }}"
+  community.general.homebrew:
+    name: "{{ item }}"
+    state: present
+    path: /home/linuxbrew/.linuxbrew/bin
+  loop:
+    - terragrunt
+    - Azure/kubelogin/kubelogin
+    - kustomize
+    - kind
+    - toxiproxy
+    - uv

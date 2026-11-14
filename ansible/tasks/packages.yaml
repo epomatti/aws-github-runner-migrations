@@ -1,0 +1,35 @@
+- name: Install build tools
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      # Essential packages for apt and system setup
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+      - build-essential
+      - bind9-dnsutils
+
+      # Development tools and CLIs
+      - gh
+      - azure-cli
+      - terraform
+      - kubectl
+      - helm
+      - cargo
+      - ansible-lint
+      - dotnet-sdk-10.0
+      - uuid-runtime
+      - jq
+      - yq
+      - unzip
+      - just
+
+      # Docker
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    update_cache: true

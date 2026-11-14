@@ -45,6 +45,13 @@ write_files:
       Components: stable
       Signed-By: /etc/apt/keyrings/docker.asc
 
+  - path: /etc/docker/daemon.json
+    permissions: "0644"
+    content: |
+      {
+        "data-root": "/data/disk001/docker"
+      }
+
 # Software packages to install
 packages:
   - software-properties-common
@@ -106,6 +113,12 @@ runcmd:
   - [add-apt-repository, --yes, universe]
   - [apt-get, update]
   - [apt-get, install, -y, ansible, ubuntu-advantage-tools]
+
+  # GitHub Actions runner setup
+  - [mkdir, -p, /opt/actions-runner]
+  - [cd, /opt/actions-runner]
+  - [curl, -o, "actions-runner-linux-x64-$version.tar.gz", -L, "https://github.com/actions/runner/releases/download/v$version/actions-runner-linux-x64-$version.tar.gz"]
+  - [tar, xzf, "./actions-runner-linux-x64-$version.tar.gz"]
 
   # Enable Ubuntu Security Guide (USG) and install it
   # TODO: Not yet available for Ubuntu 26

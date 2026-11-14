@@ -1,0 +1,15 @@
+---
+# Installs mdbook into /home/{{ target_user }}/.cargo/bin/mdbook
+- name: Install mdBook via Cargo
+  become: true
+  become_user: "{{ target_user }}"
+  ansible.builtin.command:
+    cmd: cargo install mdbook
+    creates: "/home/{{ target_user }}/.cargo/bin/mdbook"
+
+# Optional: Symlink binary globally so 'mdbook' works system-wide
+- name: Create global symlink for mdBook
+  ansible.builtin.file:
+    src: "/home/{{ target_user }}/.cargo/bin/mdbook"
+    dest: /usr/local/bin/mdbook
+    state: link

@@ -1,0 +1,39 @@
+---
+- name: Coding environment
+  hosts: localhost
+  connection: local
+  become: true
+
+  vars:
+    apt_arch: "{{ {'x86_64': 'amd64', 'aarch64': 'arm64'}[ansible_facts['architecture']] }}"
+    target_user: "{{ lookup('env', 'SUDO_USER') | default(ansible_facts['user_id'], true) }}"
+
+    kubernetes_version: "v1.34"
+
+  tasks:
+    - name: Directories and file setup
+      ansible.builtin.include_tasks: tasks/files.yaml
+
+    - name: Users
+      ansible.builtin.include_tasks: tasks/users.yaml
+
+    # - name: Keys
+    #   ansible.builtin.include_tasks: tasks/keys.yaml
+
+    # - name: Repositories
+    #   ansible.builtin.include_tasks: tasks/repositories.yaml
+
+    # - name: APT packages
+    #   ansible.builtin.include_tasks: tasks/packages.yaml
+
+    # - name: .NET tools
+    #   ansible.builtin.include_tasks: tasks/dotnet.yaml
+
+    # - name: Cargo packages
+    #   ansible.builtin.include_tasks: tasks/cargo.yaml
+
+    # - name: Homebrew packages
+    #   ansible.builtin.include_tasks: tasks/brew.yaml
+
+    # - name: Services
+    #   ansible.builtin.include_tasks: tasks/services.yaml

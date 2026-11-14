@@ -1,0 +1,6 @@
+- name: Enable and start Docker service
+  become: true
+  ansible.builtin.systemd:
+    name: docker
+    enabled: true
+    state: started

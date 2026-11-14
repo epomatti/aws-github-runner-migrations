@@ -1,0 +1,59 @@
+---
+# The Azure CLI repo is still signed with the legacy key (EB3E94ADBE1229CF),
+# while the prod repo uses the 2025 key, so both are required.
+# apt's signed-by references a single keyring file, so both keys are combined into one.
+- name: Download Microsoft GPG signing keys
+  ansible.builtin.get_url:
+    url: "https://packages.microsoft.com/keys/{{ item }}"
+    dest: "/etc/apt/keyrings/{{ item }}"
+    mode: "0644"
+  loop:
+    - microsoft.asc
+    - microsoft-2025.asc
+
+- name: Combine Microsoft keys into a single apt keyring
+  ansible.builtin.assemble:
+    src: /etc/apt/keyrings
+    dest: /etc/apt/keyrings/microsoft-prod.asc
+    regexp: '^microsoft(-2025)?\.asc$'
+    mode: "0644"
+
+- name: Install GitHub CLI GPG key
+  ansible.builtin.get_url:
+    url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+    dest: /etc/apt/keyrings/githubcli-archive-keyring.gpg
+    mode: "0644"
+
+- name: Install HashiCorp GPG key
+  ansible.builtin.get_url:
+    url: https://apt.releases.hashicorp.com/gpg
+    dest: /etc/apt/keyrings/hashicorp.asc
+    mode: "0644"
+
+- name: Install Docker CE GPG key
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: /etc/apt/keyrings/docker.asc
+    mode: "0644"
+
+# The Kubernetes repo is versioned per minor release; bump the path to upgrade.
+# The key is ASCII-armored, so the .asc extension is required (apt rejects armored keys named .gpg).
+- name: Install Kubernetes GPG key
+  ansible.builtin.get_url:
+    url: "https://pkgs.k8s.io/core:/stable:/{{ kubernetes_version }}/deb/Release.key"
+    dest: /etc/apt/keyrings/kubernetes-apt-keyring.asc
+    mode: "0644"
+
+# Helm's community apt repo is hosted by Buildkite; the old baltocdn.com host serves a broken TLS chain.
+- name: Install Helm GPG key
+  ansible.builtin.get_url:
+    url: https://packages.buildkite.com/helm-linux/helm-debian/gpgkey
+    dest: /etc/apt/keyrings/helm.asc
+    mode: "0644"
+
+# Guard against a compromised repo key, per https://helm.sh/docs/intro/install/
+- name: Verify Helm GPG key fingerprint
+  ansible.builtin.command: gpg --show-keys --with-colons /etc/apt/keyrings/helm.asc
+  register: helm_key
+  changed_when: false
+  failed_when: "'DDF78C3E6EBB2D2CC223C95C62BA89D07698DBC6' not in helm_key.stdout"
