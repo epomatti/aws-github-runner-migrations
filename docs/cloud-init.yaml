@@ -1,0 +1,32 @@
+## template: jinja
+#cloud-config
+# (type -p wget >/dev/null || (apt update && apt install wget -y)) \
+	# && mkdir -p -m 755 /etc/apt/keyrings \
+	# && out=$(mktemp) && wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+	# && cat $out | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+	# && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+	# && mkdir -p -m 755 /etc/apt/sources.list.d \
+	# && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+	# && apt update \
+	# && apt install gh -y
+
+
+
+write_files:
+  - path: /etc/apt/keyrings/githubcli-archive-keyring.gpg
+    permissions: "0644"
+    source:
+      uri: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+
+  - path: /etc/apt/sources.list.d/github.sources
+    permissions: "0644"
+    content: |
+      Types: deb
+      URIs: https://cli.github.com/packages
+      Suites: stable
+      Components: main
+      Signed-By: /etc/apt/keyrings/githubcli-archive-keyring.gpg
+
+package_update: true
+packages:
+  - gh
