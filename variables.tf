@@ -4,7 +4,7 @@ variable "aws_region" {
 }
 
 ### GitHub Runner ###
-variable "gh_runner_ami" {
+variable "gh_runner_ami_ssm_parameter" {
   type = string
 }
 

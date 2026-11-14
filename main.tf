@@ -1,12 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = ">= 6.0.0"
-    }
-  }
-}
-
 data "aws_caller_identity" "current" {}
 
 locals {
@@ -45,7 +36,7 @@ module "github_runner_instance" {
   source              = "./modules/instances/github_runner"
   vpc_id              = module.network.vpc_id
   subnet              = module.network.primary_public_subnet
-  ami                 = var.gh_runner_ami
+  ami_ssm_parameter   = var.gh_runner_ami_ssm_parameter
   instance_type       = var.gh_runner_instance_type
   user_data           = var.gh_runner_user_data
   az                  = module.network.primary_az

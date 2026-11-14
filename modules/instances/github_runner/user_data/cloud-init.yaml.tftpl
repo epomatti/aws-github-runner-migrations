@@ -1,0 +1,72 @@
+## template: jinja
+#cloud-config
+
+timezone: America/Sao_Paulo
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+
+# Wait for the data disk to be available before proceeding
+bootcmd:
+  - [
+      timeout,
+      120s,
+      sh,
+      -c,
+      "until [ -b /dev/disk/by-id/nvme-Amazon_Elastic_Block_Store_${data_volume_id} ]; do sleep 1; done",
+    ]
+
+# Software packages to install
+packages:
+  - software-properties-common
+  - ca-certificates
+  - curl
+  - less
+  - jq
+  - yq
+  - git
+  - unzip
+  - bind9-dnsutils
+
+snap:
+  commands:
+    - snap install aws-cli --classic
+
+# Disk configuration and setup
+device_aliases:
+  data_disk: /dev/disk/by-id/nvme-Amazon_Elastic_Block_Store_${data_volume_id}
+
+disk_setup:
+  data_disk:
+    table_type: gpt
+    layout: true
+    overwrite: true
+
+fs_setup:
+  - label: DISK001
+    filesystem: ext4
+    device: data_disk
+    partition: auto
+
+mounts:
+  - [LABEL=DISK001, /data/disk001, "ext4", "defaults,nofail", "0", "2"]
+
+runcmd:
+  - [sh, -c, 'platform=$(dpkg --print-architecture); wget "https://amazoncloudwatch-agent-{{ v1.region }}.s3.{{ v1.region }}.amazonaws.com/ubuntu/$platform/latest/amazoncloudwatch-agent.deb"']
+  - [dpkg, -i, -E, ./amazon-cloudwatch-agent.deb]
+  - [sh, -c, '/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c ssm:AmazonCloudWatch-linux']
+
+  # Add Ansible PPA and install Ansible along with Ubuntu Advantage Tools
+  - [add-apt-repository, --yes, ppa:ansible/ansible]
+  - [add-apt-repository, --yes, universe]
+  - [apt-get, update]
+  - [apt-get, install, -y, ansible, ubuntu-advantage-tools]
+
+  # TODO: Not yet available for Ubuntu 26
+  # Enable Ubuntu Security Guide (USG) and install it
+  # - [pro, enable, usg, --assume-yes]
+  # - [apt, install, -y, usg]
+
+  # Clean up unnecessary packages and cache
+  - [apt-get, autoremove, -y]
+  - [apt-get, clean]

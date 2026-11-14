@@ -6,7 +6,7 @@ variable "subnet" {
   type = string
 }
 
-variable "ami" {
+variable "ami_ssm_parameter" {
   type = string
 }
 

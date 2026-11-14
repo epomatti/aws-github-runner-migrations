@@ -1,5 +1,5 @@
 resource "aws_secretsmanager_secret" "github_token" {
-  name                    = "github_token"
+  name                    = "github_token2"
   recovery_window_in_days = 0
 }
 

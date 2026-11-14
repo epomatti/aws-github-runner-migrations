@@ -1,9 +1,14 @@
+data "aws_ssm_parameter" "ami" {
+  name = var.ami_ssm_parameter
+}
+
 locals {
   name = "github-runner"
+  ami  = data.aws_ssm_parameter.ami.value
 }
 
 resource "aws_instance" "default" {
-  ami           = var.ami
+  ami           = local.ami
   instance_type = var.instance_type
 
   associate_public_ip_address = true
@@ -11,7 +16,10 @@ resource "aws_instance" "default" {
   vpc_security_group_ids      = [aws_security_group.default.id]
 
   iam_instance_profile = var.instance_profile_id
-  user_data            = file("${path.module}/userdata/${var.user_data}")
+  # user_data            = file("${path.module}/userdata/${var.user_data}")
+  user_data = templatefile("${path.module}/user_data/cloud-init.yaml.tftpl", {
+    data_volume_id = replace(aws_ebs_volume.data.id, "-", "")
+  })
 
   metadata_options {
     http_endpoint = "enabled"
@@ -40,6 +48,8 @@ resource "aws_instance" "default" {
   tags = {
     Name = local.name
   }
+
+  depends_on = [aws_ebs_volume.data]
 }
 
 resource "aws_ebs_volume" "data" {

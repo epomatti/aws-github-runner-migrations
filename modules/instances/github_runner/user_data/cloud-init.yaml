@@ -1,0 +1,70 @@
+#cloud-config
+
+bootcmd:
+  # Wait for the data disk to be available before proceeding
+  - [
+      cloud-init-per,
+      once,
+      wait-for-disk,
+      sh,
+      -c,
+      "until [ -b /dev/nvme1n1 ]; do sleep 1; done",
+    ]
+
+# bootcmd:
+#   - [cloud-init-per, once, wait-for-data-disk, timeout, 120s, sh, -c, 'until [ -b /dev/disk/by-id/YOUR-DISK-ID ]; do sleep 1; done']
+
+timezone: America/Sao_Paulo
+package_update: true
+package_upgrade: false
+package_reboot_if_required: true
+
+# Software packages to install
+packages:
+  - software-properties-common
+  - ca-certificates
+  - curl
+  - less
+  - jq
+  - yq
+  - git
+  - unzip
+  - bind9-dnsutils
+
+snap:
+  commands:
+    - snap install aws-cli --classic
+
+# Disk configuration and setup
+device_aliases: { data_disk: /dev/nvme1n1 }
+
+disk_setup:
+  data_disk:
+    table_type: gpt
+    layout: true
+    overwrite: true
+
+fs_setup:
+  - label: DISK001
+    filesystem: ext4
+    device: data_disk
+    partition: auto
+
+mounts:
+  - [LABEL=DISK001, /data/disk001, "ext4", "defaults,nofail", "0", "2"]
+
+# Ansible installation and setup
+runcmd:
+  # Add Ansible PPA and install Ansible along with Ubuntu Advantage Tools
+  - [add-apt-repository, --yes, ppa:ansible/ansible]
+  - [add-apt-repository, --yes, universe]
+  - [apt-get, update]
+  - [apt-get, install, -y, ansible, ubuntu-advantage-tools]
+  
+  # Enable Ubuntu Security Guide (USG) and install it
+  - [pro, enable, usg, --assume-yes]
+  - [apt, install, -y, usg]
+
+  # Clean up unnecessary packages and cache
+  - [apt-get, autoremove, -y]
+  - [apt-get, clean]
