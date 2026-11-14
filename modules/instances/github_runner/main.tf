@@ -41,7 +41,8 @@ resource "aws_instance" "default" {
 
   lifecycle {
     ignore_changes = [
-      user_data
+      user_data,
+      ami
     ]
   }
 

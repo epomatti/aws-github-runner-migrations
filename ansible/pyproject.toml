@@ -1,0 +1,18 @@
+[project]
+name = "ansible"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Evandro Pomatti", email = "evandro.pomatti@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "ansible-lint>=26.11.0",
+]
+
+[tool.uv]
+package = false
