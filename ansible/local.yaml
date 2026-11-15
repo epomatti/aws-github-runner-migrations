@@ -26,3 +26,6 @@
 
     - name: Services
       ansible.builtin.include_tasks: tasks/services.yaml
+
+    - name: Docker setup
+      ansible.builtin.include_tasks: tasks/docker.yaml

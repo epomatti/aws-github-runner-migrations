@@ -1,0 +1,29 @@
+- name: Docker daemon
+  ansible.builtin.copy:
+    src: files/docker/daemon.json
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart docker
+
+- name: Set containerd data directory
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/containerd/config.toml
+    regexp: '^root\s*='
+    line: 'root = "/mnt/containerd-data"'
+    insertbefore: '^\['
+  notify: Restart containerd
+
+- name: Restart containerd
+  become: true
+  ansible.builtin.systemd_service:
+    name: containerd
+    state: restarted
+
+- name: Restart docker
+  become: true
+  ansible.builtin.systemd_service:
+    name: docker
+    state: restarted
