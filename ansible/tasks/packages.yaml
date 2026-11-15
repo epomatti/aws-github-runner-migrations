@@ -1,5 +1,4 @@
 - name: Install build tools
-  become: true
   ansible.builtin.apt:
     pkg:
       # Essential packages for apt and system setup

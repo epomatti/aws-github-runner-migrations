@@ -17,3 +17,17 @@
     url: "https://pkgs.k8s.io/core:/stable:/{{ kubernetes_version }}/deb/Release.key"
     dest: /etc/apt/keyrings/kubernetes-apt-keyring.asc
     mode: "0644"
+
+# Helm's community apt repo is hosted by Buildkite; the old baltocdn.com host serves a broken TLS chain.
+- name: Install Helm GPG key
+  ansible.builtin.get_url:
+    url: https://packages.buildkite.com/helm-linux/helm-debian/gpgkey
+    dest: /etc/apt/keyrings/helm.asc
+    mode: "0644"
+
+# Guard against a compromised repo key, per https://helm.sh/docs/intro/install/
+- name: Verify Helm GPG key fingerprint
+  ansible.builtin.command: gpg --show-keys --with-colons /etc/apt/keyrings/helm.asc
+  register: helm_key
+  changed_when: false
+  failed_when: "'DDF78C3E6EBB2D2CC223C95C62BA89D07698DBC6' not in helm_key.stdout"
