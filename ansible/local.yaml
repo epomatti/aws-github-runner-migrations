@@ -5,6 +5,7 @@
 
   vars:
     apt_arch: "{{ {'x86_64': 'amd64', 'aarch64': 'arm64'}[ansible_facts['architecture']] }}"
+    runner_user: "runner"
 
     # Kubernetes APT version to install. Needs to be maintained in sync with the desired Kubernetes version
     kubernetes_apt_version: "v1.37"
@@ -19,14 +20,11 @@
     - name: Keys
       ansible.builtin.include_tasks: tasks/keys.yaml
 
-    # - name: Repositories
-    #   ansible.builtin.include_tasks: tasks/repositories.yaml
+    - name: Repositories
+      ansible.builtin.include_tasks: tasks/repositories.yaml
 
     # - name: APT packages
     #   ansible.builtin.include_tasks: tasks/packages.yaml
-
-    # - name: .NET tools
-    #   ansible.builtin.include_tasks: tasks/dotnet.yaml
 
     # - name: Cargo packages
     #   ansible.builtin.include_tasks: tasks/cargo.yaml

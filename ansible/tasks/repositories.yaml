@@ -14,15 +14,6 @@
     signed_by: /etc/apt/keyrings/githubcli-archive-keyring.gpg
     state: present
 
-- name: Add HashiCorp repository
-  ansible.builtin.deb822_repository:
-    name: hashicorp
-    uris: https://apt.releases.hashicorp.com
-    suites: "{{ ansible_facts['distribution_release'] }}"
-    components: main
-    architectures: "{{ apt_arch }}"
-    signed_by: /etc/apt/keyrings/hashicorp.asc
-    state: present
 
 - name: Add Docker CE repository
   ansible.builtin.deb822_repository:
@@ -32,26 +23,6 @@
     components: stable
     architectures: "{{ apt_arch }}"
     signed_by: /etc/apt/keyrings/docker.asc
-    state: present
-
-- name: Add Microsoft prod repository
-  ansible.builtin.deb822_repository:
-    name: microsoft-prod
-    uris: "https://packages.microsoft.com/ubuntu/{{ ansible_facts['distribution_version'] }}/prod"
-    suites: "{{ ansible_facts['distribution_release'] }}"
-    components: main
-    architectures: "{{ apt_arch }}"
-    signed_by: /etc/apt/keyrings/microsoft-prod.asc
-    state: present
-
-- name: Add Azure CLI repository
-  ansible.builtin.deb822_repository:
-    name: azure-cli
-    uris: https://packages.microsoft.com/repos/azure-cli/
-    suites: "{{ ansible_facts['distribution_release'] }}"
-    components: main
-    architectures: "{{ apt_arch }}"
-    signed_by: /etc/apt/keyrings/microsoft-prod.asc
     state: present
 
 # Flat repository (suite is '/'), as documented at kubernetes.io
