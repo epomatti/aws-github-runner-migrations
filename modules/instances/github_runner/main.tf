@@ -17,7 +17,7 @@ resource "aws_instance" "default" {
 
   iam_instance_profile = var.instance_profile_id
   # user_data            = file("${path.module}/userdata/${var.user_data}")
-  user_data = templatefile("${path.module}/user_data/cloud-init.yaml.tftpl", {
+  user_data = templatefile("${path.module}/user_data/cloud-init.tftpl.yaml", {
     data_volume_id = replace(aws_ebs_volume.data.id, "-", "")
   })
 

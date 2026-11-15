@@ -1,4 +1,3 @@
----
 - name: Coding environment
   hosts: localhost
   connection: local
@@ -6,9 +5,9 @@
 
   vars:
     apt_arch: "{{ {'x86_64': 'amd64', 'aarch64': 'arm64'}[ansible_facts['architecture']] }}"
-    target_user: "{{ lookup('env', 'SUDO_USER') | default(ansible_facts['user_id'], true) }}"
 
-    kubernetes_version: "v1.34"
+    # Kubernetes APT version to install. Needs to be maintained in sync with the desired Kubernetes version
+    kubernetes_apt_version: "v1.37"
 
   tasks:
     - name: Directories and file setup
@@ -17,8 +16,8 @@
     - name: Users
       ansible.builtin.include_tasks: tasks/users.yaml
 
-    # - name: Keys
-    #   ansible.builtin.include_tasks: tasks/keys.yaml
+    - name: Keys
+      ansible.builtin.include_tasks: tasks/keys.yaml
 
     # - name: Repositories
     #   ansible.builtin.include_tasks: tasks/repositories.yaml

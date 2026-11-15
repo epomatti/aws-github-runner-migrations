@@ -6,9 +6,23 @@ package_update: true
 package_upgrade: true
 package_reboot_if_required: true
 
+# Wait for the data disk to be available before proceeding
+bootcmd:
+  - [
+      timeout,
+      120s,
+      sh,
+      -c,
+      "until [ -b /dev/disk/by-id/nvme-Amazon_Elastic_Block_Store_${data_volume_id} ]; do sleep 1; done",
+    ]
+
 # Software packages to install
 packages:
   - software-properties-common
+
+snap:
+  commands:
+    - snap install aws-cli --classic
 
 # Disk configuration and setup
 device_aliases:
@@ -41,6 +55,9 @@ runcmd:
       -c,
       "/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c ssm:AmazonCloudWatch-linux",
     ]
+
+  # Company specific setup
+  - [mkdir, -p, /opt/company]
 
   # Add Ansible PPA and install Ansible along with Ubuntu Advantage Tools
   - [add-apt-repository, --yes, ppa:ansible/ansible]
