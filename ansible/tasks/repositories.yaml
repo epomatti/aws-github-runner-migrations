@@ -26,10 +26,11 @@
     state: present
 
 # Flat repository (suite is '/'), as documented at kubernetes.io
+# Kubernetes version should be maintained in sync with EKS
 - name: Add Kubernetes repository
   ansible.builtin.deb822_repository:
     name: kubernetes
-    uris: "https://pkgs.k8s.io/core:/stable:/{{ kubernetes_version }}/deb/"
+    uris: "https://pkgs.k8s.io/core:/stable:/v1.37/deb/"
     suites: /
     architectures: "{{ apt_arch }}"
     signed_by: /etc/apt/keyrings/kubernetes-apt-keyring.asc
