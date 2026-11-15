@@ -21,14 +21,11 @@
     - name: Repositories
       ansible.builtin.include_tasks: tasks/repositories.yaml
 
-    # - name: APT packages
-    #   ansible.builtin.include_tasks: tasks/packages.yaml
-
-    # - name: Cargo packages
-    #   ansible.builtin.include_tasks: tasks/cargo.yaml
+    - name: APT packages
+      ansible.builtin.include_tasks: tasks/packages.yaml
 
     # - name: Homebrew packages
     #   ansible.builtin.include_tasks: tasks/brew.yaml
 
-    # - name: Services
-    #   ansible.builtin.include_tasks: tasks/services.yaml
+    - name: Services
+      ansible.builtin.include_tasks: tasks/services.yaml

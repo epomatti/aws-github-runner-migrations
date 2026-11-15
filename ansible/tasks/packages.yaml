@@ -13,18 +13,11 @@
 
       # Development tools and CLIs
       - gh
-      - azure-cli
-      - terraform
       - kubectl
       - helm
-      - cargo
-      - ansible-lint
-      - dotnet-sdk-10.0
-      - uuid-runtime
       - jq
       - yq
       - unzip
-      - just
 
       # Docker
       - docker-ce
