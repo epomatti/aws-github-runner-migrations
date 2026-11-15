@@ -1,5 +1,6 @@
 - name: Install build tools
   ansible.builtin.apt:
+    update_cache: true
     pkg:
       # Essential packages for apt and system setup
       - apt-transport-https
@@ -24,4 +25,3 @@
       - containerd.io
       - docker-buildx-plugin
       - docker-compose-plugin
-    update_cache: true

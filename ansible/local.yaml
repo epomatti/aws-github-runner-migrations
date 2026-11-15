@@ -24,8 +24,5 @@
     - name: APT packages
       ansible.builtin.include_tasks: tasks/packages.yaml
 
-    # - name: Homebrew packages
-    #   ansible.builtin.include_tasks: tasks/brew.yaml
-
     - name: Services
       ansible.builtin.include_tasks: tasks/services.yaml
