@@ -12,6 +12,6 @@
   ansible.builtin.lineinfile:
     path: /etc/containerd/config.toml
     regexp: '^root\s*='
-    line: 'root = "/mnt/containerd-data"'
+    line: 'root = "/data/disk001/containerd-data"'
     insertbefore: '^\['
   notify: Restart containerd
