@@ -6,6 +6,7 @@
   vars:
     apt_arch: "{{ {'x86_64': 'amd64', 'aarch64': 'arm64'}[ansible_facts['architecture']] }}"
     runner_user: "runner"
+    kubernetes_apt_version: "v1.37"
 
   tasks:
     - name: Directories and file setup
